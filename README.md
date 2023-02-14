@@ -9,6 +9,6 @@ Students are expected to:
 Student Info
 =========================
 
-* Student Name: MY BEAUTY (is) Le Thai Truong Minh
+* Student Name: MY BEAUTY (is) LE THAI TRUONG MINH
 * Student ID: BI12-290
 
