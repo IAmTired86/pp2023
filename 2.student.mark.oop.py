@@ -33,17 +33,20 @@ class Course(University):
         print("Mark: ", self.__mark)
     
     def _getIdCourse(self):
-        return self.id
+        return self.__id
+    
     def _getNameCourse(self):
         return self.__name
+    
     def _getMarkCourse(self):
         return self.__mark
+    
     def _setMarkCourse(self, mark):
-        self.__mark.update({Student: mark})  
+        self.__mark.update({Student: mark})
+    
     def _showMarkCourse(self):
-        for (student,id,mark) in self.__mark.items():
+        for (student,mark) in self.__mark.items():
             print(f"Student: {student}")
-            print(f"ID: {id}")
             print(f"Mark:  {mark}")
 
 
@@ -56,6 +59,7 @@ def inputStudent():
         name = input("Enter student name: ")
         id = input("Enter student id: ")
         dob = input("Enter student dob: ")
+        
         StudentList.append(Student(name, id, dob))
         print("Student added successfully")
 
@@ -74,14 +78,19 @@ def inputCourse():
 #input mark for student
 def inputMark():
     id = input("Enter course id: ")
-    if id not in CourseList:
+    found = False
+    for course in CourseList:
+        if course._getIdCourse() == id:
+            found = True
+            for student in StudentList:
+                mark = int(input(f"Enter mark for {student._getNameStudent()}: "))
+                course._setMarkCourse({student: mark})
+            print("Marks added successfully")
+            break
+    if not found:
         print("Course not found!!!!!")
         print("Input valid course id >:( ")
-        return
-    else:
-        for student in StudentList:
-            mark = int(input(f"Enter mark for {student._getNameStudent()}: "))
-            CourseList[id]._setMarkCourse(student._getID(),mark)
+
 
         
 
@@ -100,12 +109,16 @@ def showCourse():
 #Show mark for student
 def showMark():
     id = input("Enter course id to show marks: ")
-    if id not in CourseList:
+    found = False
+    for course in CourseList:
+        if course._getIdCourse() == id:
+            found = True
+            print("Marks:")
+            course._showMarkCourse()
+            break
+    if not found:
         print("Course not found!!!!!")
         print("Input valid course id >:( ")
-        return
-    else:
-        CourseList[id]._showMarkCourse()
 
 
 
