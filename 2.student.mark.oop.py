@@ -6,28 +6,40 @@ class University:
 # Student class
 class Student(University):
     def __init__(self, name, id, dob):
-        self.name = name
-        self.id = id
-        self.dob = dob
+        self.__name = name
+        self.__id = id
+        self.__dob = dob
+    
+    def _getName(self):
+        return self.__name
+    
+    def _getId(self):
+        return self.__id
     
     def __str__(self):
-        return f"Name: {self.name}, ID: {self.id}, DOB: {self.dob}"
+        return f"Name: {self.__name}, ID: {self.__id}, DOB: {self.__dob}"
 
 # Course class    
 class Course(University):
     def __init__(self, name, id):
-        self.name = name
+        self.__name = name
         self.id = id
-        self.marks = {}
+        self.__marks = {}
+
+    def _getName(self):
+        return self.__name
+
+    def _getMarks(self):
+        return self.__marks
     
     def __str__(self):
-        return f"Name: {self.name}, ID: {self.id}, Marks: {self.marks}"
+        return f"Name: {self.__name}, ID: {self.id}, Marks: {self.__marks}"
     
     def set_marks(self, student, mark):
-        self.marks[student] = mark
+        self.__marks[student] = mark
         
     def show_marks(self):
-        for student, mark in self.marks.items():
+        for student, mark in self.__marks.items():
             print(student)
             print(f"Mark: {mark}")
 
@@ -61,7 +73,7 @@ def input_marks():
         if course.id == id:
             found = True
             for student in students:
-                mark = int(input(f"Enter mark for {student.name}: "))
+                mark = float(input(f"Enter mark for {student._getName()}: "))
                 course.set_marks(student, mark)
             print("Marks added successfully")
             break
@@ -94,7 +106,9 @@ def show_marks():
     if not found:
         print("Course not found!!!!!")
         print("Input valid course id >:( ")
-          
+
+
+
 # Main program
 input_students()
 input_courses()
