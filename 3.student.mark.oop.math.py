@@ -1,5 +1,7 @@
 import math
-import numpy
+import numpy as np
+import curses
+from curses import wrapper
 
 # University class for polymorphism
 class University:
@@ -24,9 +26,10 @@ class Student(University):
 
 # Course class    
 class Course(University):
-    def __init__(self, name, id):
+    def __init__(self, name, id, credit):
         self.__name = name
         self.id = id
+        self.__credit = credit
         self.__marks = {}
 
     def _getName(self):
@@ -34,6 +37,9 @@ class Course(University):
 
     def _getMarks(self):
         return self.__marks
+    
+    def _getCredit(self):
+        return self.__credit
     
     def __str__(self):
         return f"Name: {self.__name}, ID: {self.id}, Marks: {self.__marks}"
@@ -65,7 +71,8 @@ def input_courses():
     for i in range(num_of_courses):
         name = input("Enter course name: ") 
         id = input("Enter course id: ")
-        courses.append(Course(name, id))
+        credit = int(input("Enter course credit: "))
+        courses.append(Course(name, id, credit))
         print("Course added successfully")
         
 # Input marks for student
@@ -77,10 +84,14 @@ def input_marks():
             found = True
             for student in students:
                 mark = float(input(f"Enter mark for {student._getName()}: "))
-                mark=math.floor(mark * 10)/10
-                course.set_marks(student, mark)
-            print("Marks added successfully")
-            break
+                if mark > 0.0 and mark < 20.0:
+                    mark=math.floor(mark * 10)/10
+                    course.set_marks(student, mark)
+                    print("Marks added successfully")
+                    break
+                else:
+                    print("Invalid mark")
+                    break
     if not found:
         print("Course not found!!!!!")
         print("Input valid course id >:( ")
@@ -111,7 +122,32 @@ def show_marks():
         print("Course not found!!!!!")
         print("Input valid course id >:( ")
 
+#Creating Gpa array using numpy
+GPA = np.array[len.students]
 
+
+# Calculate GPA
+def calculate_gpa():
+    gpa = float(0.0)
+    total_credit = 0
+    total_marks = 0
+    for course in courses:
+        for student in students:
+            mark = course._getMarks()[student]
+            credit = course._getCredit()
+            total_credit += credit
+            total_marks += (mark * credit)
+    gpa = round((total_marks / total_credit), 2)
+    return gpa
+
+#Show Gpa
+def show_gpa():
+    id = input("Enter student id to show GPA: ")
+    for student in students:
+        if student._getId() == id:
+            print(f"Name: {student._getName()}")
+            print(f"GPA: {calculate_gpa()}")
+    
 
 # Main program
 input_students()
@@ -122,7 +158,8 @@ while True:
     print("2. Show student")
     print("3. Show course")
     print("4. Show mark")
-    print("5. Exit")
+    print("5. Calculate GPA")
+    print("6. Exit")
     
     try:
         option = int(input("Enter option: "))
@@ -135,6 +172,8 @@ while True:
         elif option == 4:
             show_marks()
         elif option == 5:
+            show_gpa()
+        elif option == 6:
             break
         else:
             print("Invalid option! Please input valid choice!")
