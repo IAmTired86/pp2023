@@ -1,4 +1,4 @@
-from Uni import University
+from domains.Uni import University
 class Course(University):
     def __init__(self, name, id, credit):
         self.__name = name

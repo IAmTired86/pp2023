@@ -2,6 +2,8 @@
 import domains
 import input
 import output
+from input import *
+from output import *
 input_students()
 input_courses()
 while True:
